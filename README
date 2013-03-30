@@ -1,0 +1,17 @@
+pylibhack (L) by @sha0coder
+
+
+* Pros & Cons
+
+This is not an automated and accunetix, this are libs for performing specialized attacks.
+You have to make a code, that uses this libs for making the attack, see blind_sql example.
+
+pros: More flexible to uncomon cirscuntances when typical apps fail, advanced functionalities and optimizations, oop scalable design.
+
+
+
+* DANGER!!! this make internet attacks, use with caution.
+
+This is a tool for pentesters, use it at your own risk.
+
+

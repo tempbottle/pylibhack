@@ -1,0 +1,77 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# sha0@badchecksum.net
+
+__version__ = "$Revision: 0004000 $"
+
+import socket
+import select
+
+class Conn:	
+	def __init__(self):
+		self.buffer = 100;
+		self.srecv_timeout = 5
+		self.idle = 5
+
+	def connectSend(self, ip, port, toSend):
+		self.sock.connect(ip,port)
+		self.sock.send(toSend)
+		self.sock.shutdown(1)
+		data = self.sock.recv(self.buffer)
+		self.sock.close()
+		return data
+
+
+	def srecv(self):
+		t0 = int(time.time())
+		while 1:
+			(r,w,e) = select.select([self.sock],[self.sock],[self.sock])
+
+			if r:
+				y = r.pop()
+				sys.stdout.write(y.recv(1))
+
+			if not r and int(time.time()) > t0+self.srecv_timeout:
+				sys.stdout.write('\n')
+				return
+
+
+	def connect(self, ip, port):
+		self.sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+		try:
+			self.sock.connect((ip,port))
+			return 1
+		except:
+			return 0
+
+	def recv(self):
+		return self.sock.recv(self.buffer)
+		
+		
+	def send(self, msg):
+		self.sock.send(msg)
+		print
+		return self.sock.recv(666)
+
+	def close(self):
+		self.sock.close()
+
+
+	def read(self):
+		count=0
+		alldata=''
+		while 1:
+			count +=1
+			#print 'counter %d' % count
+			if count > self.idle: break
+			(r,w,e) = select.select([self.sock],[],[self.sock],3)
+			if e: break
+			for rr in r:
+				try:
+					data = rr.recv(8192)
+					print 'recibio '+data
+					alldata+=data
+				except:
+					pass
+
+		return alldata

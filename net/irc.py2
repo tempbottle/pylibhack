@@ -1,0 +1,43 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# sha0@badchecksum.net
+
+__version__ = "$Revision: 0004000 $"
+
+from net.conn import *
+
+class IRC:						#def
+	def __init__(self,server,port):
+		self.server = server
+		self.port = port
+		self.con = Conn()
+		self.ident = 'weee'
+
+	def connect(self,user):
+		self.con.connect(self.server,self.port)
+		self.con.send('USER '+user+' +ixw '+user+' :'+self.ident+'\n')
+		self.con.send('NICK '+user+'\n')
+
+	def join(self,chan,passwd=None):
+		if passwd:
+			self.con.send('JOIN #'+chan+' :'+passwd+'\n')
+		else:
+			self.con.send('JOIN #'+chan+'\n')
+		
+	def part(self,chan):
+		self.con.send('PART #'+chan+'\n')	
+
+	def kick(self,chan,nick,why):
+		self.con.send('KICK #'+canal+' '+nick+' :'+why+'\n')
+		
+	def msg(self,chan,msg):	
+		self.con.send('PRIVMSG '+chan+' :'+msg+'\n')
+
+	def mode(self,chan,mode,nick):
+		self.con.send('MODE '+chan+' '+mode+' '+nick)
+
+	def disconnect(self):
+		self.con.close() 
+
+
+
